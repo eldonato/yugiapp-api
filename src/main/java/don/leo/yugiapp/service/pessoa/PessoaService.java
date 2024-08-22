@@ -42,7 +42,10 @@ public class PessoaService {
     }
 
     private Pessoa toPessoa(PessoaRecord record) {
-        return new Pessoa(null, record.nome());
+        return Pessoa.builder()
+                .id(null)
+                .nome(record.nome())
+                .build();
     }
 
     public void deletar(Integer id) {

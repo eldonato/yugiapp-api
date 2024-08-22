@@ -44,7 +44,11 @@ public class LigaService {
     }
 
     private Liga toLiga(LigaRecord record) {
-        return new Liga(null, record.descricao(), record.dataInicio(), record.dataFim());
+        return Liga.builder()
+                .descricao(record.descricao())
+                .dataInicio(record.dataInicio())
+                .dataFim(record.dataFim())
+                .build();
     }
 
     public void deletar(Integer id) {

@@ -42,7 +42,9 @@ public class LojaService {
     }
 
     private Loja toLoja(LojaRecord record) {
-        return new Loja(null, record.nome());
+        return Loja.builder()
+                .nome(record.nome())
+                .build();
     }
 
     public void deletar(Integer id) {
