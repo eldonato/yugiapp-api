@@ -51,7 +51,7 @@ public class GlobalExceptionHandler {
 
         public ErrorMessage(EntityNotFoundException ex) {
             this(
-                    ex.getMessage(),
+                    "Entidade não encontrada",
                     HttpStatus.NOT_FOUND,
                     HttpStatus.NOT_FOUND.value());
         }

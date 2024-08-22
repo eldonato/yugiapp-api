@@ -18,7 +18,7 @@ public class Loja {
     @SequenceGenerator(name = "loja_seq", sequenceName = "loja_id_seq", allocationSize = 1)
     private Integer id;
 
-    @Column(name = "descricao")
+    @Column(name = "nome")
     private String nome;
 
 }
