@@ -4,6 +4,7 @@ import jakarta.persistence.EntityNotFoundException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -51,7 +52,7 @@ public class GlobalExceptionHandler {
 
         public ErrorMessage(EntityNotFoundException ex) {
             this(
-                    "Entidade não encontrada",
+                    coalescer(ex.getMessage(), "Entidade não encontrada"),
                     HttpStatus.NOT_FOUND,
                     HttpStatus.NOT_FOUND.value());
         }
@@ -59,8 +60,8 @@ public class GlobalExceptionHandler {
         public ErrorMessage(DataIntegrityViolationException ex) {
             this(
                     extrairMensagemDatabase(ex),
-                    HttpStatus.NOT_FOUND,
-                    HttpStatus.NOT_FOUND.value());
+                    HttpStatus.INTERNAL_SERVER_ERROR,
+                    HttpStatus.INTERNAL_SERVER_ERROR.value());
         }
 
         public ErrorMessage() {
@@ -81,6 +82,12 @@ public class GlobalExceptionHandler {
             }
 
             return mensagem;
+        }
+
+        private static String coalescer(String left, String right) {
+            return StringUtils.hasText(left)
+                    ? left
+                    : right;
         }
     }
 }
