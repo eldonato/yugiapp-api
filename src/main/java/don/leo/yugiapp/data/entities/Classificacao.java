@@ -20,11 +20,11 @@ public class Classificacao {
     @SequenceGenerator(name = "classificacao_seq", sequenceName = "classificacao_id_seq", allocationSize = 1)
     private Integer id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne()
     @JoinColumn(name = "id_torneio")
     private Torneio torneio;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne()
     @JoinColumn(name = "id_jogador")
     private Jogador jogador;
 

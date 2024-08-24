@@ -2,6 +2,7 @@ package don.leo.yugiapp.service.classificacao;
 
 import don.leo.yugiapp.data.entities.Classificacao;
 import don.leo.yugiapp.data.entities.Jogador;
+import don.leo.yugiapp.data.entities.QClassificacao;
 import don.leo.yugiapp.data.entities.Torneio;
 import don.leo.yugiapp.data.repositories.ClassificacaoRepository;
 import don.leo.yugiapp.service.jogador.JogadorService;
@@ -33,7 +34,8 @@ public class ClassificacaoService {
 
     public List<Classificacao> listar(FiltroClassificacao filtro) {
         var predicate = ClassificacaoPredicate.criarPredicate(filtro);
-        return repository.listar(predicate);
+        var order = QClassificacao.classificacao.pontuacao.desc();
+        return repository.findAll(predicate, order);
     }
 
     @Transactional
