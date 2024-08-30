@@ -12,10 +12,18 @@ public class JogadorPredicate {
             predicate.and(comKossy(filtro.kossy()));
         }
 
+        if (filtro.nome() != null) {
+            predicate.and(comNome(filtro.nome()));
+        }
+
         return predicate;
     }
 
     public static BooleanBuilder comKossy(String kossy) {
         return new BooleanBuilder().and(QJogador.jogador.kossy.containsIgnoreCase(kossy));
+    }
+
+    public static BooleanBuilder comNome(String nome) {
+        return new BooleanBuilder().and(QJogador.jogador.pessoa.nome.containsIgnoreCase(nome));
     }
 }

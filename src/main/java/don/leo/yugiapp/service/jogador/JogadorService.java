@@ -2,6 +2,7 @@ package don.leo.yugiapp.service.jogador;
 
 import don.leo.yugiapp.data.entities.Jogador;
 import don.leo.yugiapp.data.entities.Pessoa;
+import don.leo.yugiapp.data.entities.QJogador;
 import don.leo.yugiapp.data.repositories.JogadorRepository;
 import don.leo.yugiapp.service.pessoa.PessoaRecord;
 import don.leo.yugiapp.service.pessoa.PessoaService;
@@ -28,7 +29,8 @@ public class JogadorService {
 
     public List<Jogador> listar(FiltroJogador filtro) {
         var predicate = JogadorPredicate.criarPredicate(filtro);
-        return repository.listar(predicate);
+        var order = QJogador.jogador.pessoa.nome.asc();
+        return repository.listar(predicate, order);
     }
 
     @Transactional
@@ -54,6 +56,10 @@ public class JogadorService {
                 .orElseThrow(jogadorNaoEncontrado());
 
         repository.delete(jogador);
+    }
+
+    public boolean kossyCadastrado(String kossy) {
+        return repository.exists(JogadorPredicate.comKossy(kossy));
     }
 
     private Jogador toJogador(JogadorRecord record, Pessoa pessoa) {

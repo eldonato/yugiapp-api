@@ -8,8 +8,14 @@ import org.springframework.util.Assert;
 @RequiredArgsConstructor
 public class JogadorValidator {
 
+    private final JogadorService service;
+
     public void validarCadastro(JogadorRecord record) {
         Assert.hasText(record.kossy(), "Nome é obrigatório");
+        Assert.isTrue(record.kossy().length() == 10, "O Kossy deve ter 10 dígitos");
+        if (service.kossyCadastrado(record.kossy())) {
+            throw new IllegalArgumentException("Kossy já cadastrado");
+        }
     }
 
     public void validarAtualizacao(JogadorRecord record) {

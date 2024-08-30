@@ -1,5 +1,6 @@
 package don.leo.yugiapp.service.classificacao;
 
+import com.querydsl.core.types.OrderSpecifier;
 import don.leo.yugiapp.data.entities.Classificacao;
 import don.leo.yugiapp.data.entities.Jogador;
 import don.leo.yugiapp.data.entities.QClassificacao;
@@ -34,8 +35,8 @@ public class ClassificacaoService {
 
     public List<Classificacao> listar(FiltroClassificacao filtro) {
         var predicate = ClassificacaoPredicate.criarPredicate(filtro);
-        var order = QClassificacao.classificacao.pontuacao.desc();
-        return repository.findAll(predicate, order);
+        var orders = ordenarPorTorneioEPontuacao();
+        return repository.findAll(predicate, orders);
     }
 
     @Transactional
@@ -57,13 +58,20 @@ public class ClassificacaoService {
 
     @Transactional
     public Classificacao atualizar(Integer id, ClassificacaoRecord record) {
-        var Classificacao = detalhar(id)
+        var classificacao = detalhar(id)
                 .orElseThrow(EntityNotFoundException::new);
 
-        Classificacao.setPontuacao(record.pontuacao());
-        Classificacao.setDeck(record.deck());
+        classificacao.setPontuacao(record.pontuacao());
+        classificacao.setDeck(record.deck());
 
-        return repository.save(Classificacao);
+        return repository.save(classificacao);
+    }
+
+    public void deletar(Integer id) {
+        var classificacao = detalhar(id)
+                .orElseThrow(EntityNotFoundException::new);
+
+        repository.delete(classificacao);
     }
 
     public boolean jogadorJaParticipa(Integer idJogador, Integer idTorneio) {
@@ -82,10 +90,9 @@ public class ClassificacaoService {
                 .build();
     }
 
-    public void deletar(Integer id) {
-        var Classificacao = detalhar(id)
-                .orElseThrow(EntityNotFoundException::new);
-
-        repository.delete(Classificacao);
+    private static OrderSpecifier<?>[] ordenarPorTorneioEPontuacao() {
+        var porTorneio = QClassificacao.classificacao.torneio.id.desc();
+        var porPontuacao = QClassificacao.classificacao.pontuacao.desc();
+        return new OrderSpecifier<?>[]{porTorneio, porPontuacao};
     }
 }

@@ -4,6 +4,7 @@ import lombok.Builder;
 
 @Builder
 public record FiltroJogador(
-        String kossy
+        String kossy,
+        String nome
 ) {
 }
