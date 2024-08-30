@@ -29,7 +29,7 @@ public class Classificacao {
     private Jogador jogador;
 
     @Column(name = "pontuacao")
-    private int pontuacao;
+    private Integer pontuacao;
 
     @Column(name="deck")
     private String deck;

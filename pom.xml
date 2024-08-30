@@ -75,7 +75,6 @@
             <classifier>jakarta</classifier>
             <scope>provided</scope>
         </dependency>
-
         <dependency>
             <groupId>com.querydsl</groupId>
             <artifactId>querydsl-jpa</artifactId>
@@ -83,7 +82,14 @@
             <version>${querydsl.version}</version>
         </dependency>
 
-    </dependencies>
+		<dependency>
+			<groupId>org.liquibase</groupId>
+			<artifactId>liquibase-core</artifactId>
+			<version>4.29.1</version>
+		</dependency>
+
+
+	</dependencies>
 
 	<build>
 		<plugins>
