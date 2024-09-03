@@ -19,11 +19,11 @@ Será necessário ter instalado:
 - Java 22
 
 1. Crie uma dois arquivos para a criptografia em src/main/resources
-   1.Chave privada: app.key
-   2.Chave Pública: pub.key
+   - Chave privada: app.key
+   - Chave Pública: pub.key
 3. Na pasta raíz do projeto, execute o comando ```docker compose -f ./docker/docker-compose.yml up -d```
-4. Compile o projeto com o maven e o execute
-  1. ```mvn clean package```
-  2. ```java -jar ./target/yugiapp-0.0.1-SNAPSHOT.jar```
+4. Compile o projeto com o maven e o execute os comandos
+   - ```mvn clean package```
+   -  ```java -jar ./target/yugiapp-0.0.1-SNAPSHOT.jar```
 5. Será criado um usuário com role de admin padrão com login e senha admin
 
