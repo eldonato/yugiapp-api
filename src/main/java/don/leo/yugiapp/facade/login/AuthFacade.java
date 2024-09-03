@@ -35,7 +35,7 @@ public class AuthFacade {
 
     public void alterarSenha(AlterarSenhaRecord record, JwtAuthenticationToken token) {
         usuarioValidator.validarAlterarSenha(record, token);
-        UUID uuid = UUID.fromString(token.getPrincipal().toString());
+        UUID uuid = UUID.fromString(token.getName());
 
         usuarioService.alterarSenha(uuid, record.senhaAtual());
     }

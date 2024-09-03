@@ -44,10 +44,10 @@ public class UsuarioValidator {
         Assert.isTrue(senhasDiferentes(record.senhaAntiga(), record.senhaAtual()),
                 "Senha atual deve ser diferente da anterior");
 
-        var usuario = usuarioService.buscarPorId(UUID.fromString(token.getPrincipal().toString()))
+        var usuario = usuarioService.buscarPorId(UUID.fromString(token.getName()))
                 .orElseThrow(() -> new IllegalArgumentException("Usuário não encontrado"));
 
-        Assert.isTrue(passwordEncoder.matches(usuario.getSenha(), record.senhaAntiga()),
+        Assert.isTrue(passwordEncoder.matches(record.senhaAntiga(), usuario.getSenha()),
                 "Senha fornecida incorreta");
     }
 
