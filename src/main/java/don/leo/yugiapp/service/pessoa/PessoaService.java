@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Supplier;
 
 
 @Service
@@ -34,11 +35,23 @@ public class PessoaService {
     @Transactional
     public Pessoa atualizar(Integer id, PessoaRecord record) {
         var Pessoa = detalhar(id)
-                .orElseThrow(EntityNotFoundException::new);
+                .orElseThrow(pessoaNaoEncontrada());
 
         Pessoa.setNome(record.nome());
 
         return repository.save(Pessoa);
+    }
+
+    public Pessoa buscarOuCriar(PessoaRecord record) {
+        Pessoa pessoa;
+        if (record.id() != null) {
+            pessoa = detalhar(record.id())
+                    .orElseThrow(pessoaNaoEncontrada());
+        } else {
+            pessoa = cadastrar(record);
+        }
+
+        return pessoa;
     }
 
     private Pessoa toPessoa(PessoaRecord record) {
@@ -50,8 +63,12 @@ public class PessoaService {
 
     public void deletar(Integer id) {
         var Pessoa = detalhar(id)
-                .orElseThrow(EntityNotFoundException::new);
+                .orElseThrow(pessoaNaoEncontrada());
 
         repository.delete(Pessoa);
+    }
+
+    private static Supplier<EntityNotFoundException> pessoaNaoEncontrada() {
+        return () -> new EntityNotFoundException("Pessoa não encontrada");
     }
 }

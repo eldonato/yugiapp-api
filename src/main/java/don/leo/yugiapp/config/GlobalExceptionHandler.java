@@ -4,6 +4,8 @@ import jakarta.persistence.EntityNotFoundException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -28,6 +30,18 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(EntityNotFoundException.class)
     public ResponseEntity<ErrorMessage> handleIEntityNotFoundException(EntityNotFoundException ex) {
+        var error = new ErrorMessage(ex);
+        return new ResponseEntity<>(error, error.httpStatus());
+    }
+
+    @ExceptionHandler(BadCredentialsException.class)
+    public ResponseEntity<ErrorMessage> handleBadCredentialsException(BadCredentialsException ex) {
+        var error = new ErrorMessage(ex);
+        return new ResponseEntity<>(error, error.httpStatus());
+    }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<ErrorMessage> handleAccessDeniedException(AccessDeniedException ex) {
         var error = new ErrorMessage(ex);
         return new ResponseEntity<>(error, error.httpStatus());
     }
@@ -62,6 +76,20 @@ public class GlobalExceptionHandler {
                     extrairMensagemDatabase(ex),
                     HttpStatus.INTERNAL_SERVER_ERROR,
                     HttpStatus.INTERNAL_SERVER_ERROR.value());
+        }
+
+        public ErrorMessage(BadCredentialsException ex) {
+            this(
+                    ex.getMessage(),
+                    HttpStatus.UNAUTHORIZED,
+                    HttpStatus.UNAUTHORIZED.value());
+        }
+
+        public ErrorMessage(AccessDeniedException ex) {
+            this(
+                    ex.getMessage(),
+                    HttpStatus.FORBIDDEN,
+                    HttpStatus.FORBIDDEN.value());
         }
 
         public ErrorMessage() {

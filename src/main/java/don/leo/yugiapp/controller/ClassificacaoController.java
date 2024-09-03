@@ -19,7 +19,7 @@ public class ClassificacaoController {
 
     private final ClassificacaoFacade facade;
 
-    // Endpoints Publicos
+    // Endpoints Restritos
 
     @GetMapping("/{id}")
     @Operation(summary = "Detalhar")
@@ -33,8 +33,6 @@ public class ClassificacaoController {
         return facade.listar(filtro);
     }
 
-
-    // Endpoints Restritos
     @PostMapping()
     @Operation(summary = "Cadastrar")
     ClassificacaoRecord cadastrar(@RequestBody ClassificacaoRecord record) {

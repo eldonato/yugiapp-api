@@ -4,7 +4,6 @@ import don.leo.yugiapp.data.entities.Jogador;
 import don.leo.yugiapp.data.entities.Pessoa;
 import don.leo.yugiapp.data.entities.QJogador;
 import don.leo.yugiapp.data.repositories.JogadorRepository;
-import don.leo.yugiapp.service.pessoa.PessoaRecord;
 import don.leo.yugiapp.service.pessoa.PessoaService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
@@ -35,7 +34,7 @@ public class JogadorService {
 
     @Transactional
     public Jogador cadastrar(JogadorRecord record) {
-        var pessoa = buscarOuCriar(record.pessoa());
+        var pessoa = pessoaService.buscarOuCriar(record.pessoa());
         return repository.save(toJogador(record, pessoa));
     }
 
@@ -70,23 +69,8 @@ public class JogadorService {
                 .build();
     }
 
-    private Pessoa buscarOuCriar(PessoaRecord record) {
-        Pessoa pessoa;
-        if (record.id() != null) {
-            pessoa = pessoaService.detalhar(record.id())
-                    .orElseThrow(pessoaNaoEncontrada());
-        } else {
-            pessoa = pessoaService.cadastrar(record);
-        }
-
-        return pessoa;
-    }
-
     private static Supplier<EntityNotFoundException> jogadorNaoEncontrado() {
         return () -> new EntityNotFoundException("Jogador não encontrado");
     }
 
-    private static Supplier<EntityNotFoundException> pessoaNaoEncontrada() {
-        return () -> new EntityNotFoundException("Pessoa não encontrada");
-    }
 }

@@ -23,6 +23,6 @@ public class Pessoa {
     @Column(name = "nome")
     private String nome;
 
-    @OneToOne(mappedBy = "pessoa", orphanRemoval = true)
+    @OneToOne(mappedBy = "pessoa", orphanRemoval = true, fetch = FetchType.LAZY)
     private Jogador jogador;
 }
