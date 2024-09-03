@@ -7,6 +7,7 @@ import don.leo.yugiapp.data.repositories.UsuarioRepository;
 import don.leo.yugiapp.shared.PermissaoEnum;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
@@ -15,6 +16,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import java.util.Set;
 
 
+@Slf4j
 @Configuration
 @RequiredArgsConstructor
 public class AdminUserConfig implements CommandLineRunner {
@@ -33,7 +35,7 @@ public class AdminUserConfig implements CommandLineRunner {
         var admins = usuarioRepository.findAll(QUsuario.usuario.permissoes.contains(roleAdmin));
 
         if (admins.isEmpty()) {
-            var senha = passwordEncoder.encode("admin");
+            var senha = passwordEncoder.encode(loginSenhaPadrao);
 
             var adminPadrao = Usuario.builder()
                     .username(loginSenhaPadrao)
@@ -42,7 +44,7 @@ public class AdminUserConfig implements CommandLineRunner {
                     .build();
             usuarioRepository.save(adminPadrao);
 
-            System.out.println("Usuário admin padrão criado, não esqueça de alterar as credenciais.");
+            log.warn("Usuário admin padrão criado, não esqueça de alterar as credenciais");
         }
 
     }
