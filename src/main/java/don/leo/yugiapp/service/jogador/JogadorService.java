@@ -73,4 +73,13 @@ public class JogadorService {
         return () -> new EntityNotFoundException("Jogador não encontrado");
     }
 
+    /**
+     * Realiza um count com base em todos os jogadores com id na lista
+     * compara com a quantidade de elementos na lista
+     * @return true se for igual, false se for diferente
+     */
+    public boolean todosIdsExistem(List<Integer> idsJogadores) {
+        var idsNoBanco = repository.findAllById(idsJogadores).size();
+        return idsNoBanco == idsJogadores.size();
+    }
 }

@@ -4,6 +4,7 @@ import don.leo.yugiapp.facade.classificacao.ClassificacaoFacade;
 import don.leo.yugiapp.service.classificacao.ClassificacaoMinimaRecord;
 import don.leo.yugiapp.service.classificacao.ClassificacaoRecord;
 import don.leo.yugiapp.service.classificacao.FiltroClassificacao;
+import don.leo.yugiapp.service.classificacao.records.ClassificacaoEmLoteRecord;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -37,6 +38,12 @@ public class ClassificacaoController {
     @Operation(summary = "Cadastrar")
     ClassificacaoRecord cadastrar(@RequestBody ClassificacaoRecord record) {
         return facade.cadastrar(record);
+    }
+
+    @PostMapping("em-lote")
+    @Operation(summary = "Cadastra várias classificações em lote")
+    void cadastrarEmLote(@RequestBody ClassificacaoEmLoteRecord record) {
+        facade.cadastrarEmLote(record);
     }
 
     @PutMapping("/{id}")

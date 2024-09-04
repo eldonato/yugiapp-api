@@ -26,4 +26,8 @@ public class Jogador {
     @OneToOne
     @JoinColumn(name = "id_pessoa")
     private Pessoa pessoa;
+
+    public Jogador(Integer id) {
+        this.id = id;
+    }
 }

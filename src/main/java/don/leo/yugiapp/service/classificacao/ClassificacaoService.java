@@ -6,6 +6,7 @@ import don.leo.yugiapp.data.entities.Jogador;
 import don.leo.yugiapp.data.entities.QClassificacao;
 import don.leo.yugiapp.data.entities.Torneio;
 import don.leo.yugiapp.data.repositories.ClassificacaoRepository;
+import don.leo.yugiapp.service.classificacao.records.ClassificacaoEmLoteRecord;
 import don.leo.yugiapp.service.jogador.JogadorService;
 import don.leo.yugiapp.service.torneio.TorneioService;
 import jakarta.persistence.EntityNotFoundException;
@@ -46,6 +47,13 @@ public class ClassificacaoService {
         var jogador = jogadorService.detalhar(record.jogador().id())
                 .orElseThrow(jogadorNaoEncontrado());
         return repository.save(toClassificacao(record, torneio, jogador));
+    }
+
+    @Transactional
+    public void cadastrarEmLote(ClassificacaoEmLoteRecord record) {
+        var torneio = torneioService.detalhar(record.idTorneio())
+                .orElseThrow(torneioNaoEncontrado());
+        repository.saveAll(converterClassificacoes(record, torneio));
     }
 
     private static Supplier<EntityNotFoundException> torneioNaoEncontrado() {
@@ -95,4 +103,11 @@ public class ClassificacaoService {
         var porPontuacao = QClassificacao.classificacao.pontuacao.desc();
         return new OrderSpecifier<?>[]{porTorneio, porPontuacao};
     }
+
+    private static List<Classificacao> converterClassificacoes(ClassificacaoEmLoteRecord record, Torneio torneio) {
+        return record.resultados().stream()
+                .map(r -> new Classificacao(null, torneio, new Jogador(r.idJogador()), r.pontuacao(), r.deck()))
+                .toList();
+    }
+
 }
