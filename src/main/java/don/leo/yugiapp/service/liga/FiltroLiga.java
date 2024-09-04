@@ -6,6 +6,7 @@ import java.time.LocalDate;
 
 @Builder
 public record FiltroLiga(
+        Integer id,
         String descricao,
         LocalDate data
 ) {

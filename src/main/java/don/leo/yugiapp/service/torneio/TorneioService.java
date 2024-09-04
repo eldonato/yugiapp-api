@@ -20,6 +20,10 @@ public class TorneioService {
 
     private final TorneioRepository repository;
 
+    public boolean idExiste(Integer id) {
+        return repository.existsById(id);
+    }
+
     public Optional<Torneio> detalhar(Integer id) {
         return repository.findById(id);
     }

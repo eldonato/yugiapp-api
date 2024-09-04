@@ -18,6 +18,9 @@ public class ClassificacaoPredicate {
         if (filtro.idJogador() != null) {
             predicate.and(doJogador(filtro.idJogador()));
         }
+        if (filtro.idLiga() != null) {
+            predicate.and(daLiga(filtro.idLiga()));
+        }
 
         return predicate;
     }
@@ -32,5 +35,9 @@ public class ClassificacaoPredicate {
 
     public static BooleanExpression comDeck(String deck) {
         return QClassificacao.classificacao.deck.containsIgnoreCase(deck);
+    }
+
+    public static BooleanExpression daLiga(Integer idLiga) {
+        return QClassificacao.classificacao.torneio.liga.id.eq(idLiga);
     }
 }

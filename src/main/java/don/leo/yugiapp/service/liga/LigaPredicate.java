@@ -15,17 +15,25 @@ public class LigaPredicate {
         }
 
         if (filtro.data() != null) {
-            predicate.and(emAndamentoEm(filtro.data()));
+            predicate.and(emAndamento(filtro.data()));
+        }
+
+        if (filtro.id() != null) {
+            predicate.and(comId(filtro.id()));
         }
 
         return predicate;
+    }
+
+    private static BooleanBuilder comId(Integer id) {
+        return new BooleanBuilder().and(QLiga.liga.id.eq(id));
     }
 
     public static BooleanBuilder comDescricao(String descricao) {
         return new BooleanBuilder().and(QLiga.liga.descricao.containsIgnoreCase(descricao));
     }
 
-    public static BooleanBuilder emAndamentoEm(LocalDate data) {
+    public static BooleanBuilder emAndamento(LocalDate data) {
         return new BooleanBuilder().and(
                         QLiga.liga.dataInicio.before(data)
                         .and(QLiga.liga.dataFim.after(data))

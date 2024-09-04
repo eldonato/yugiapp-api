@@ -1,5 +1,6 @@
 package don.leo.yugiapp.service.liga;
 
+import com.querydsl.core.types.Predicate;
 import don.leo.yugiapp.data.entities.Liga;
 import don.leo.yugiapp.data.repositories.LigaRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -16,6 +17,10 @@ import java.util.Optional;
 public class LigaService {
 
     private final LigaRepository repository;
+
+    public Optional<Liga> buscarUm(Predicate predicado) {
+        return repository.buscarUm(predicado);
+    }
 
     public Optional<Liga> detalhar(Integer id) {
         return repository.findById(id);

@@ -6,6 +6,7 @@ import lombok.Builder;
 public record FiltroClassificacao(
         String deck,
         Integer idTorneio,
-        Integer idJogador
+        Integer idJogador,
+        Integer idLiga
 ) {
 }

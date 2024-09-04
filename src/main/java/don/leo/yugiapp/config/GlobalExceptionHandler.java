@@ -41,6 +41,7 @@ public class GlobalExceptionHandler {
                     new ErrorMessage(extrairMensagemDatabase(e), HttpStatus.INTERNAL_SERVER_ERROR);
             case BadCredentialsException e -> new ErrorMessage(e.getMessage(), HttpStatus.UNAUTHORIZED);
             case AccessDeniedException e -> new ErrorMessage(e.getMessage(), HttpStatus.FORBIDDEN);
+            case RuntimeException e -> new ErrorMessage(e.getMessage(), HttpStatus.BAD_REQUEST);
             default -> new ErrorMessage("Ocorreu um erro interno no servidor.", HttpStatus.INTERNAL_SERVER_ERROR);
         };
     }

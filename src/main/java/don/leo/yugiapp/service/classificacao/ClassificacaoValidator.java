@@ -9,6 +9,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 @Service
 @RequiredArgsConstructor
 public class ClassificacaoValidator {
@@ -39,6 +43,11 @@ public class ClassificacaoValidator {
         Assert.notEmpty(record.resultados(), "Informe os resultados");
 
         var idsJogadores = record.resultados().stream().map(PontuacaoJogador::idJogador).toList();
+
+        if (temIdDuplicado(idsJogadores)) {
+            throw new IllegalArgumentException("Há jogadores repetidos");
+        }
+
         if (!jogadorService.todosIdsExistem(idsJogadores)) {
             throw new IllegalArgumentException("Algum jogador não pode ser encontrado.");
         }
@@ -46,5 +55,10 @@ public class ClassificacaoValidator {
         if (!torneioService.idExiste(record.idTorneio())) {
             throw new EntityNotFoundException("Torneio não foi encontrado");
         }
+    }
+
+    private boolean temIdDuplicado(List<Integer> ids) {
+        Set<Integer> idSet = new HashSet<>(ids);
+        return ids.size() != idSet.size();
     }
 }
