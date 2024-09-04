@@ -20,7 +20,9 @@ public class RankingJogadorDTO {
     private Integer idJogador;
     private String kossy;
     private String nome;
+    @Builder.Default
     private Integer pontuacao = 0;
+    @Builder.Default
     private Set<String> decks = new HashSet<>();
 
     public RankingJogadorDTO(Classificacao classificacao) {
@@ -28,6 +30,7 @@ public class RankingJogadorDTO {
         this.kossy = classificacao.getJogador().getKossy();
         this.nome = classificacao.getJogador().getPessoa().getNome();
         this.pontuacao = classificacao.getPontuacao();
+        this.decks = new HashSet<>();
         if (StringUtils.hasText(classificacao.getDeck())) {
             decks.add(classificacao.getDeck());
         }
