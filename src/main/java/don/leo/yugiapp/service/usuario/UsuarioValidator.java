@@ -24,7 +24,7 @@ public class UsuarioValidator {
         Assert.isTrue(pessoaTemNomeOuId(cadastro.pessoa()), "Informe a pessoa");
 
         usuarioService.buscarPorNomeDeUsuario(cadastro.usuario())
-                .ifPresent(_ -> {
+                .ifPresent(u -> {
                     throw new IllegalArgumentException("Nome de usuário já cadastrado");
                 });
     }
