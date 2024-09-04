@@ -35,8 +35,8 @@ public class LigaPredicate {
 
     public static BooleanBuilder emAndamento(LocalDate data) {
         return new BooleanBuilder().and(
-                        QLiga.liga.dataInicio.before(data)
-                        .and(QLiga.liga.dataFim.after(data))
+                        QLiga.liga.dataInicio.loe(data)
+                        .and(QLiga.liga.dataFim.goe(data))
         );
     }
 }

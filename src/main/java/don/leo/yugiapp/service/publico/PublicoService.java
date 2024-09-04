@@ -36,6 +36,8 @@ public class PublicoService {
         return new ClassificacaoLiga(
                 liga.getId(),
                 liga.getDescricao(),
+                liga.getDataInicio(),
+                liga.getDataFim(),
                 rankingMapeado
         );
     }
